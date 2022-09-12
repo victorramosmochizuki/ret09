@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SistCom_Maven:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>SistCom_Maven</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="SistCom_Maven-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="SistCom_Maven:war exploded" />
+    </root>
+  </artifact>
+</component>

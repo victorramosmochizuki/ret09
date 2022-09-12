@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Mantenimiento Proveedor</title>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+    </h:head>
+    <h:body>
+        <p:growl id="mensaje" severity="info,fatal" showSummary="true" showDetail="true"/>
+        <p:menubar>
+            <p:menuitem value="Proveedor" url="/SistCom_Maven/faces/Vista/Proveedor.xhtml"/>
+            <p:menuitem value="Area" url="/SistCom_Maven/faces/Vista/Area.xhtml"/>
+            <p:menuitem value="Usuario" url="/SistCom_Maven/faces/Vista/Usuario.xhtml"/>
+            <p:menuitem value="Material" url="/SistCom_Maven/faces/Vista/Material.xhtml"/>
+            <p:menuitem value="Asignacion de Material" url="/SistCom_Maven/faces/Vista/Asignacion.xhtml"/>      
+        </p:menubar>
+        <h:form id="tablaPro">
+            <p:panelGrid columns="6">
+
+                <p:outputLabel value="RUC" />
+                <p:inputText  id="ruc" required="true" maxlength="11" value="#{proveedorC.proveedor.RUCPRO}" label="NOMBRE REPETIDO" requiredMessage="Ingresar Nombre" style="width: 200px">
+                    <f:ajax event="keyup" execute="@this" delay="500"/>
+                    <p:keyFilter regEx="/[0-9]/"/>
+                    <f:validator validatorId="RucDuplicada"/>
+                </p:inputText>
+
+                <p:outputLabel value="Razon Social" />
+                <p:inputText  id="razon" required="true" maxlength="50" value="#{proveedorC.proveedor.RAZSOC}" label="NOMBRE REPETIDO" requiredMessage="Ingresar Nombre" style="width: 200px">
+                    <f:ajax event="keyup" execute="@this" delay="500"/>               
+                    <f:validator validatorId="RazonDuplicado"/>
+                </p:inputText>
+
+                <p:outputLabel value="Sucursal" />
+                <p:inputText id="sucursal" value="#{proveedorC.proveedor.SUCPRO}" maxlength="100" required="true" requiredMessage="Digitar Sucursal">
+                    <p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_ ]/"/>
+                </p:inputText>                
+                <p:outputLabel value="Direccion"/>
+                <p:inputText id="direccion" value="#{proveedorC.proveedor.DIRPRO}" maxlength="100" required="true" requiredMessage="Digitar la Razon Social"/>                
+
+                <p:outputLabel value="Correo"/>
+                <p:inputText id="correo" value="#{proveedorC.proveedor.CORPRO}" maxlength="100" required="true" requiredMessage="Digitar la Razon Social"/>  
+
+                <p:outputLabel value="Numero de Telefono" />
+                <p:inputText  id="telefono" required="true" maxlength="9" value="#{proveedorC.proveedor.TELPRO}" label="NOMBRE REPETIDO" requiredMessage="Ingresar Nombre" style="width: 200px">
+                    <f:ajax event="keyup" execute="@this" delay="500"/>
+                    <p:keyFilter regEx="/[0-9]/"/>
+                    <f:validator validatorId="TelefonoDuplicado"/>
+                </p:inputText>
+
+                <p:outputLabel value="Numero de Celular" />
+                <p:inputText id="cel" value="#{proveedorC.proveedor.CELPRO}" maxlength="9" required="true" requiredMessage="Digitar el Celular">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                    <f:validateLength minimum="9" maximum="9" />
+                </p:inputText>  
+            </p:panelGrid>
+            <p:commandButton value="Registrar" action="#{proveedorC.registrar()}" update="proovedor:tablaPro ruc razon sucursal direccion correo telefono cel"/>
+        </h:form>  
+
+        <h:form id="proovedor">
+            <p:dataTable var="car" id="tablaPro" value="#{proveedorC.listapro}"
+                         rows="5" paginator="true" 
+                         widgetVar="busquedaPersona" emptyMessage="No se encontro registro"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,15,20">   
+                <f:facet name="header">
+                    <div style="float:right;padding-top: 5px;">
+                        <h:commandLink>
+                            <p:graphicImage url="../Imagenes/Excel.png" width="36"/>
+                            <p:dataExporter type="xls" target="tablaPro" fileName="Proveedores" pageOnly="false"/>
+                        </h:commandLink>
+                        <h:commandLink>
+                            <p:graphicImage url="../Imagenes/csv.png" width="36"/>
+                            <p:dataExporter type="csv" target="tablaPro" fileName="Proveedores" pageOnly="false" />
+                        </h:commandLink>
+                        <h:commandLink>
+                            <p:graphicImage url="../Imagenes/pdf.png" width="36"/>
+                            <p:dataExporter type="pdf" target="tablaPro" fileName="Proveedores" pageOnly="false" />
+                        </h:commandLink>
+                    </div>  
+                </f:facet>    
+                <p:column headerText="RUC">
+                    <h:outputText value="#{car.RUCPRO}"/>
+                </p:column>   
+                <p:column headerText="Razon Social">
+                    <h:outputText value="#{car.RAZSOC}"/>
+                </p:column>    
+                <p:column headerText="Sucursal">
+                    <h:outputText value="#{car.SUCPRO}"/>
+                </p:column>   
+                <p:column headerText="Direccion">
+                    <h:outputText value="#{car.DIRPRO}"/>
+                </p:column> 
+                <p:column headerText="Telefono">
+                    <h:outputText value="#{car.TELPRO}"/>
+                </p:column> 
+                <p:column headerText="Celular">
+                    <h:outputText value="#{car.CELPRO}"/>
+                </p:column> 
+                <p:column headerText="Modificar">
+                    <p:commandButton value="Modificar" 
+                                     oncomplete="PF('wdlgDatos').show();" 
+                                     update=":frm">
+                        <f:setPropertyActionListener value="#{car}" target="#{proveedorC.proveedor}" />    
+                    </p:commandButton>   
+                </p:column>                    
+                <p:column headerText="Eliminar">
+                    <p:commandButton value="Eliminar"  actionListener="#{proveedorC.modificarEstado(car)}" update="tablaPro">                           
+                        <p:confirm header="Confirmación" message="¿Deseas Eliminar?" icon="ui-icon-alert"/>
+                        <p:tooltip trackMouse="true"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                </p:column>
+                <f:facet name="footer">
+                    EN TOTAL HAY #{fn:length(proveedorC.listapro)} REGISTROS.
+                </f:facet>                   
+            </p:dataTable>                    
+        </h:form>
+        <p:dialog header="Datos de Marcas" widgetVar="wdlgDatos" id="dlgdatos">
+            <h:form id="frm">
+                <p:panelGrid columns="6">
+                    <p:outputLabel value="RUC" />
+                    <p:inputText  id="nombre" required="true" maxlength="50" value="#{proveedorC.proveedor.RUCPRO}" label="NOMBRE REPETIDO" requiredMessage="Ingresar Nombre" style="width: 200px">
+                        <f:ajax event="keyup" execute="@this" delay="500"/>
+                        <p:keyFilter regEx="/[0-9]/"/>                      
+                    </p:inputText>
+
+                    <p:outputLabel value="Razon Social" />
+                    <p:inputText  id="razon" required="true" maxlength="50" value="#{proveedorC.proveedor.RAZSOC}" label="NOMBRE REPETIDO" requiredMessage="Ingresar Nombre" style="width: 200px">
+                        <f:ajax event="keyup" execute="@this" delay="500"/>
+                    </p:inputText>
+
+                    <p:outputLabel value="Sucursal" />
+                    <p:inputText value="#{proveedorC.proveedor.SUCPRO}" maxlength="100" required="true" requiredMessage="Digitar Sucursal">
+                        <p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_ ]/"/>
+                    </p:inputText>                
+                    <p:outputLabel value="Direccion"/>
+                    <p:inputText value="#{proveedorC.proveedor.DIRPRO}" maxlength="100" required="true" requiredMessage="Digitar la Razon Social"/>                
+                    <p:outputLabel value="Correo"/>
+                    <p:inputText value="#{proveedorC.proveedor.CORPRO}" maxlength="100" required="true" requiredMessage="Digitar la Razon Social"/>  
+                    <p:outputLabel value="Numero de Telefono" />
+                    <p:inputText  id="telefono" required="true" maxlength="9" value="#{proveedorC.proveedor.TELPRO}" label="NOMBRE REPETIDO" requiredMessage="Ingresar Nombre" style="width: 200px">
+                        <f:ajax event="keyup" execute="@this" delay="500"/>
+                        <p:keyFilter regEx="/[0-9]/"/>
+                    </p:inputText>
+                    <p:outputLabel value="Numero de Celular" />
+                    <p:inputText value="#{proveedorC.proveedor.CELPRO}" maxlength="9" required="true" requiredMessage="Digitar el Celular">
+                        <p:keyFilter regEx="/[0-9]/"/>
+                        <f:validateLength minimum="9" maximum="9" />
+                    </p:inputText>  
+                </p:panelGrid>
+                <p:commandButton value="Cancelar" immediate="true" />
+                <p:commandButton value="Modificar" actionListener="#{proveedorC.modificar()}"
+                                 update="proovedor:tablaPro" oncomplete="PF('wdlgDatos').hide();" >
+                    <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                    <p:tooltip trackMouse="true"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+
