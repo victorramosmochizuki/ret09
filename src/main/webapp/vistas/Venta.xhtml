@@ -143,7 +143,14 @@
                         <p:commandButton actionListener="#{boletaC.registrarVenta()}" value="Registrar" icon="pi pi-save"
                                          style="width: 150px; height: 50px" update="frmVentDet :frmenvio :frmVentaDetalle"/>
                     </p:panelGrid>
+                                      <p:panelGrid columns="5">
+                        <p:commandButton actionListener="#{boletaC.registrarVenta()}" value="Registrar" icon="pi pi-save"
+                                         style="width: 150px; height: 50px" update="frmVentDet :frmenvio :frmVentaDetalle"/>
+                    </p:panelGrid>
+                  
                 </center>
+              
+              
 
                 <p:fieldset legend="Ventas" toggleable="true">
                     <p:dataTable var="vendetfin" id="tablaVentaDetalleFinal" value="#{boletaC.listaBoletaDetalleFinal}"
