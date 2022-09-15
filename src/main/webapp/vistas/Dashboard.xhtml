@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+    <body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                        template="./plantilla.xhtml"
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:h="http://java.sun.com/jsf/html"
+                        xmlns:f="http://java.sun.com/jsf/core"
+                        xmlns:p="http://primefaces.org/ui"
+                        xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+            <ui:define name="content">
+                <h:head>
+
+                </h:head>
+                <h:outputStylesheet library="css" name="primeflex.min.css"/>
+                <h:outputStylesheet library="css" name="primeflex.css"/>
+                <f:event listener="#{usuarioC.seguridadSesion()}" type="preRenderView"></f:event>
+                <f:event listener="#{usuarioC.seguradUsuarioApoderado()}" type="preRenderView"></f:event>
+                <h:body>
+                    <h:form>
+                        <p:fragment>
+                            <div align="center">
+                                <h4>TIEMPO DE INICIO DE SESION</h4>
+                                <h:outputText id="contador" value="#{dashboardC.number}" style="font-size: 36px;font-weight: bold;color: #D32F2F"></h:outputText>
+                                <p:progressBar value="#{dashboardC.number}" id="contador1" displayOnly="true"/>
+                                <p:poll id="poll" interval="1" process="contador" listener="#{dashboardC.decrementoNumero()}" update="contador contador1"></p:poll>  
+                                <p:idleMonitor timeout="1">
+                                    <p:ajax event="active" listener="#{dashboardC.activarSesion()}"></p:ajax>
+                                </p:idleMonitor>
+                            </div>
+                        </p:fragment>
+                    </h:form>
+                    <h2 style="font-family: sans-serif; text-align: center">GRAFICOS DE LAS PERSONAS</h2>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box" style="background-color: #FEEDAF">
+                                <p:pieChart model="#{dashboardC.dashboardPersona}" style="width: 125%; height: 500px;"/>
+                            </div>
+                            <p/>
+                            <p  style="font-size: 150%;color:background; font-weight:bold; "><center>PERSONAS ACTIVAS E INACTIVAS </center></p>
+                        </div>
+                        <div class="p-col">
+                            <div class="box" style="background-color: #ced4da">
+                                <p:pieChart model="#{dashboardC.dashboardRango}" style="width: 125%; height: 500px;"/>
+                            </div>
+                            <p/>
+                            <p  style="font-size: 150%;color:background; font-weight:bold; "><center>CANTIDAD DE PERSONAS </center></p>
+                        </div>
+                    </div>
+                </h:body>  
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
