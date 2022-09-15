@@ -9,6 +9,8 @@
     <name>EDUCASI_MAVEN</name> 
 
     <properties>
+        <sonar.organization>victorramosmochizuki</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
